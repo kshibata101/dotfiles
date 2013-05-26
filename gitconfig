@@ -1,0 +1,26 @@
+[user]
+	name = Shibata Kazuki
+	email = kshibata901@gmail.com
+[github]
+	user = kshibata101
+	token = 091366629ed0c239990f22496d5eeb41
+[colar]
+	ui = auto
+[color]
+	ui = auto
+[core]
+	excludesfile = /Users/kazukishibata/.gitignore
+[alias]
+        st = status
+        sh = stash
+        ch = checkout
+        cb = checkout -b
+        br = branch
+        bd = branch -D
+        rb = branch -r
+        cm = commit -m
+        ca = commit -a
+        ls = log --stat
+        mg = merge --no-ff
+        rs = reset
+        ad = add .
