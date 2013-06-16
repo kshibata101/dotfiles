@@ -29,3 +29,7 @@ lisp/*.elc
 *.lot
 *.lof
 *.toc
+
+mongo/*
+.saves*local~
+undohist/

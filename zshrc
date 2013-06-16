@@ -1,5 +1,4 @@
-PATH=/usr/local/bin:$PATH
-
+export PATH=/usr/local/bin:$PATH
 export LANG=ja_JP.UTF-8
 
 ##プロンプト
@@ -50,7 +49,7 @@ limit coredumpsize 102400
 # setopt prompt_subst
 
 ##スペルチェック
-setopt correct
+# setopt correct
 
 ##cd 強化 
 setopt auto_cd
@@ -82,7 +81,7 @@ alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
-
+alias mino='node'
 ###
 function chpwd() { ls }
 
@@ -113,3 +112,30 @@ function expand-or-complete-or-list-files() {
 zle -N expand-or-complete-or-list-files
 # bind to tab
 bindkey '^I' expand-or-complete-or-list-files
+
+# nvm
+# nvm と指定されたバージョンの Node.js がインストール済みの場合だけ
+# 設定を有効にする
+if [[ -f ~/.nvm/nvm.sh ]]; then
+    source ~/.nvm/nvm.sh  
+
+    if which nvm >/dev/null 2>&1 ;then
+        _nodejs_use_version="v0.8.23"
+        if nvm ls | grep -F -e "${_nodejs_use_version}" >/dev/null 2>&1 ;then
+            nvm use "${_nodejs_use_version}" >/dev/null
+            export NODE_PATH=${NVM_PATH}_modules${NODE_PATH:+:}${NODE_PATH}
+        fi
+        unset _nodejs_use_version
+    fi
+fi
+
+# gitなどバージョン管理
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' formats '[%b]'
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () {
+        psvar=()
+            LANG=en_US.UTF-8 vcs_info
+                [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+RPROMPT="%1(v|%F{green}%1v%f|)%F{yellow}[%~]%f"

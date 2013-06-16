@@ -138,6 +138,18 @@
 (global-set-key (kbd "M-d") 'delete-word)
 ;(global-set-key (kbd "M-h") 'backward-delete-word) ; => 挙動が微妙
 
+(global-set-key (kbd "RET") 'newline-and-indent)
+
+;; 行頭とインデントの頭
+;; http://d.hatena.ne.jp/kitokitoki/20100131/p4
+(defun my-move-beginning-of-line ()
+  (interactive)
+  (if (bolp)
+      (back-to-indentation)    
+      (beginning-of-line)))
+
+(global-set-key "\C-a" 'my-move-beginning-of-line)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacsの設定（外部ソース利用）
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -161,12 +173,21 @@
 ;; auto-complete.el
 ;; http://d.hatena.ne.jp/Watson/20100315/1268632079
 (require 'auto-complete)
-(global-auto-complete-mode t)
 
 ;; 辞書設定
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
+
+(global-auto-complete-mode t)
+
+(setq ac-auto-start 4)
+(setq ac-use-menu-map t)
+;; デフォルトで設定済み
+(define-key ac-menu-map "\C-n" 'ac-next)
+(define-key ac-menu-map "\C-p" 'ac-previous)
+(define-key ac-completing-map (kbd "TAB") 'ac-complete)
+(setq ac-dwim t)
 
 ;; linum-mode
 (global-linum-mode t)
@@ -454,6 +475,8 @@ are always included."
 ;; Chrome ライクなタブ切り替えのキーバインド
 (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
 (global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
+(global-set-key (kbd "<C-right>") 'tabbar-forward-tab)
+(global-set-key (kbd "<C-left>") 'tabbar-backward-tab)
 
 ;; タブ上をマウス中クリックで kill-buffer
 (defun my-tabbar-buffer-help-on-tab (tab)
@@ -556,7 +579,7 @@ mouse-3: delete other windows"
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; Emacs実践入門
-(add-hook 'js2-mode-hook 'js-indent-hook)
+;(add-hook 'js2-mode-hook 'js-indent-hook)
 
 ;;; JS用Flymakeの初期化関数の定義
 (defun flymake-jsl-init ()
@@ -673,8 +696,9 @@ and source-file directory for your debugger." t)
 ;; 自動挿入
 (auto-insert-mode)
 (setq auto-insert-directory "~/.emacs.d/insert/")
+(define-auto-insert "\\.html$" "html-template.html")
 (define-auto-insert "\\.php$" "php-template.php")
-(define-auto-insert "\\.php$" "php-html-template.php")
+;; (define-auto-insert "\\.php$" "php-html-template.php")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rの設定
@@ -775,7 +799,7 @@ and source-file directory for your debugger." t)
 ;; 単語展開キーバインド (ver8.0から明記しないと機能しない)
 ;; (setqだとtermなどで干渉問題ありでした)
 ;; もちろんTAB以外でもOK 例えば "C-;"とか
-(custom-set-variables '(yas-trigger-key "TAB"))
+;(custom-set-variables '(yas-trigger-key "TAB"))
 
 ;; 既存スニペットを挿入する
 (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
