@@ -93,11 +93,16 @@
 ;; buffer
 (global-set-key "\C-x\C-b" 'bs-show)
 
+(global-set-key "\C-x\C-k" 'kill-this-buffer)
+
 ;; kill-ring
 (global-set-key (kbd "M-y") 'anything-show-kill-ring)
 
 ;; split window horizontally
 (global-set-key (kbd "S-t") 'split-window-horizontally)
+
+;; Return key to newline and indent
+(global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; shell-mode
 ;; shell-modeで矢印キーの上下でコマンド履歴を表示
