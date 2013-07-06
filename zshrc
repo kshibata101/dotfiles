@@ -83,8 +83,11 @@ alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
 alias ks='ls'
+# mino monta
 alias mino='node'
 alias sr='source'
+# file grep
+alias fg='find . G'
 
 ###
 function chpwd() { ls }
