@@ -2,9 +2,10 @@ export PATH=/usr/local/bin:$PATH
 export LANG=ja_JP.UTF-8
 
 ##プロンプト
-PROMPT="%m@%F{magenta}%n%f %% "
-RPROMPT="%F{yellow}[%~]%f"
-setopt transient_rprompt
+# PROMPT="%m@%F{magenta}%n%f %% "
+PROMPT="%F{yellow}[%~]%f
+$ "
+# setopt transient_rprompt
 
 ##ヒストリ強化
 HISFILE=$HOME/.zsh-history
@@ -51,7 +52,7 @@ limit coredumpsize 102400
 ##スペルチェック
 # setopt correct
 
-##cd 強化 
+##cd 強化
 setopt auto_cd
 setopt autopushd
 setopt pushd_ignore_dups
@@ -81,7 +82,10 @@ alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
+alias ks='ls'
 alias mino='node'
+alias sr='source'
+
 ###
 function chpwd() { ls }
 
@@ -138,4 +142,4 @@ precmd () {
             LANG=en_US.UTF-8 vcs_info
                 [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
-RPROMPT="%1(v|%F{green}%1v%f|)%F{yellow}[%~]%f"
+RPROMPT="%1(v|%F{green}%1v%f|)"

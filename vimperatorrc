@@ -1,0 +1,22 @@
+"3.7 (created: 2013/04/03 18:20:07)
+
+source! /Users/kshibata101/.vimperatorrc.local
+
+" vim: set ft=vimperator:
+
+" j/k でのスクロール幅を 1行 から 10行 に変更
+map j 10<C-e>
+map k 10<C-y>
+
+" h/l に戻るや進むを割り当て
+map h <A-Left>
+map l <A-Right>
+
+" 入力フォームにフォーカスしない
+set focuscontent
+
+" hintchars
+set hintchars=asdfghjkl
+
+" hatena
+javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});

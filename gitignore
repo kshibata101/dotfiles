@@ -32,4 +32,4 @@ lisp/*.elc
 
 mongo/*
 .saves*local~
-undohist/
+emacs.d/*/*
