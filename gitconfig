@@ -9,7 +9,7 @@
 [color]
 	ui = auto
 [core]
-	excludesfile = /Users/kazukishibata/.gitignore
+	excludesfile = ~/.gitignore
 [alias]
         st = status -s -b -uall
         sh = stash
