@@ -1,6 +1,6 @@
 "3.7 (created: 2013/04/03 18:20:07)
 
-source! /Users/kshibata101/.vimperatorrc.local
+source! ~/.vimperatorrc.local
 
 " vim: set ft=vimperator:
 
@@ -12,14 +12,25 @@ map k 10<C-y>
 map h <A-Left>
 map l <A-Right>
 
+"qmarks
+map qm <esc>:qmark<Space>
+map qa <esc>:qmarks<cr>
+
 " 入力フォームにフォーカスしない
 set focuscontent
 
 " hintchars
 set hintchars=asdfghjkl
 
+set maxitems=15
+
+set complete=h
+
 " hatena
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
+
+" help for new tab
+set newtab=all
 
 " font size
 hi Hint z-index:5000; font-family:Menlo; font-size:14px; color:white; background-color:red; border-color:ButtonShadow; border-width:0px; border-style:solid; padding:0px 2px 0px 2px; position:absolute;

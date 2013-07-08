@@ -1,8 +1,30 @@
-export PATH=/usr/local/bin:$PATH
 export LANG=ja_JP.UTF-8
+export PATH=/usr/local/bin:$PATH
+
+# alias
+# 使い方
+# % ls -al L       # ls -al | less と同じ
+# % ps -ef G zsh   # ps -ef | grep zsh と同じ
+alias -g L='| less'
+alias -g G='| grep'
+alias -g H='| head'
+alias -g T='| tail'
+alias ls='ls -FG'
+alias l='ls'
+alias la='ls -a'
+alias ll='ls -l'
+alias lla='ls -la'
+alias ks='ls'
+# mino monta
+alias mino='node'
+alias sr='source'
+# file grep
+alias fg='find . G'
+
+###
+function chpwd() { ls }
 
 ##プロンプト
-# PROMPT="%m@%F{magenta}%n%f %% "
 PROMPT="%F{yellow}[%~]%f
 $ "
 # setopt transient_rprompt
@@ -48,6 +70,7 @@ limit coredumpsize 102400
 
 ##配色
 # setopt prompt_subst
+export LSCOLORS=gxfxcxdxbxegedabagacad
 
 ##スペルチェック
 # setopt correct
@@ -68,29 +91,6 @@ setopt brace_ccl
 ###
 ### http://mollifier.hatenablog.com/entry/20090413/1239551651
 ###
-
-# alias
-# 使い方
-# % ls -al L       # ls -al | less と同じ
-# % ps -ef G zsh   # ps -ef | grep zsh と同じ
-alias -g L='| less'
-alias -g G='| grep'
-alias -g H='| head'
-alias -g T='| tail'
-alias ls='ls -FG'
-alias l='ls'
-alias la='ls -a'
-alias ll='ls -l'
-alias lla='ls -la'
-alias ks='ls'
-# mino monta
-alias mino='node'
-alias sr='source'
-# file grep
-alias fg='find . G'
-
-###
-function chpwd() { ls }
 
 ### コマンドスタック
 ### http://qiita.com/items/1f2c7793944b1f6cc346

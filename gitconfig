@@ -10,6 +10,7 @@
 	ui = auto
 [core]
 	excludesfile = ~/.gitignore
+	pager = lv -c
 [alias]
         st = status -s -b -uall
         sh = stash
