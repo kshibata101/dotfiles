@@ -16,7 +16,7 @@
 (add-to-list 'default-frame-alist '(background-color . "black"))
 
 ;; 透明度を設定します
-(add-to-list 'default-frame-alist '(alpha . 85))
+(add-to-list 'default-frame-alist '(alpha .8))
 
 ;; 対応する括弧を表示
 (show-paren-mode 1)
@@ -686,17 +686,48 @@ and source-file directory for your debugger." t)
 ;; PHPの設定
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; php-mode
+(require 'php-mode)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
+(add-hook 'php-mode-hook
+          (lambda ()
+            (defun ywb-php-lineup-arglist-intro (langelem)
+              (save-excursion
+                (goto-char (cdr langelem))
+                (vector (+ (current-column) c-basic-offset))))
+            (defun ywb-php-lineup-arglist-close (langelem)
+              (save-excursion
+                (goto-char (cdr langelem))
+                (vector (current-column))))
+            (c-set-style "stroustrup")    ; インデントは4文字分基本スタイル
+            (c-set-offset 'arglist-intro 'ywb-php-lineup-arglist-intro) ; 配列のインデント関係
+            (c-set-offset 'arglist-close 'ywb-php-lineup-arglist-close) ; 配列のインデント関係
+            (c-set-offset 'arglist-cont-nonempty' 4) ; 配列のインデント関係
+;            (c-set-offset 'case-label' 0) ; case はインデントする
+            (make-local-variable 'tab-width)
+            (make-local-variable 'indent-tabs-mode)
+            (setq tab-width 4)
+            (setq indent-tabs-mode nil)))   ; インデントにタブを使う
+
+;; pear
+(setq php-mode-force-pear t)
+
 ;; flymake
 ;; http://mugijiru.seesaa.net/article/326967860.html
-(defun flymake-php-init ()
-  (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-inplace))
-         (local-file (file-relative-name
-                      temp-file
-                      (file-name-directory buffer-file-name))))
-    (list "php" (list "-l" local-file))))
-(push '(".+\\.php$" flymake-php-init) flymake-allowed-file-name-masks)
-(push '("(Parse|Fatal) error: (.*) in (.*) on line ([0-9]+)" 3 4 nil 2) flymake-err-line-patterns)
+;; (defun flymake-php-init ()
+;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                      'flymake-create-temp-inplace))
+;;          (local-file (file-relative-name
+;;                       temp-file
+;;                       (file-name-directory buffer-file-name))))
+;;     (list "php" (list "-l" local-file))))
+;; (push '("(Parse|Fatal) error: (.*) in (.*) on line ([0-9]+)" 3 4 nil 2) flymake-err-line-patterns)
+
+;; (add-to-list 'flymake-allowed-file-name-masks
+;;              '("\\.php\\'" flymake-php-init))
+
+;; (add-hook 'php-mode-hook (flymake-mode t))
 
 ;; 自動挿入
 (auto-insert-mode)
@@ -918,7 +949,7 @@ and source-file directory for your debugger." t)
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+;(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
