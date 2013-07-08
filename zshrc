@@ -2,7 +2,6 @@ export PATH=/usr/local/bin:$PATH
 export LANG=ja_JP.UTF-8
 
 ##プロンプト
-# PROMPT="%m@%F{magenta}%n%f %% "
 PROMPT="%F{yellow}[%~]%f
 $ "
 # setopt transient_rprompt
@@ -48,6 +47,7 @@ limit coredumpsize 102400
 
 ##配色
 # setopt prompt_subst
+export LSCOLORS=gxfxcxdxbxegedabagacad
 
 ##スペルチェック
 # setopt correct
