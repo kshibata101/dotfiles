@@ -86,3 +86,9 @@ set wildmenu
 
 " set color scheme
 colorscheme koehler
+
+" カーソル行をハイライト
+set cursorline
+:hi clear CursorLine
+:hi CursorLine gui=underline
+highlight CursorLine ctermbg=darkblue guibg=black
