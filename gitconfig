@@ -23,11 +23,15 @@
         rb = branch -r
         cm = commit -m
         ca = commit -a
-        ls = log --oneline
-        lg = log -p
+        lo = log --oneline
+        lg = log --stat --oneline
+        lp = log -p --oneline
         mg = merge --no-ff
         rs = reset
         ad = add .
         au = add -u
         ap = add -p
         rv = revert -n
+        rf = reflog
+        df = diff
+        dc = diff --cached

@@ -15,7 +15,6 @@ export PATH=$PATH:/usr/local/WordNet-3.0/bin
 export PATH=$PATH:~/bin
 export PATH=$PATH:$M2
 export PATH=$PATH:~/pear/bin
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:/usr/local/share/npm/lib/node_modules
 export PATH=$PATH:~/Documents/lib/adt-bundle-mac-x86_64-20130219/sdk/platform-tools:~/Documents/lib/adt-bundle-mac-x86_64-20130219/sdk/tools
 
@@ -65,3 +64,5 @@ nvm use v0.10.4
 export PATH="$PATH:/usr/local/heroku/bin"
 
 [[ -s "$HOME/.phpbrew/bashrc" ]] && source "$HOME/.phpbrew/bashrc"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

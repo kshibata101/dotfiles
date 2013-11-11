@@ -33,6 +33,10 @@
 ;; バックアップファイル作成無効
 (setq backup-inhibited t)
 
+;; ビープ消す
+(setq visible-bell t)
+(setq ring-bell-function 'ignore)
+
 ;; GUIならメニューバーを隠す
 ;; turn off toolbar
 (if window-system
@@ -58,10 +62,8 @@
 ;; http://shibayu36.hatenablog.com/entry/2012/12/29/001418
 (global-auto-revert-mode 1)
 
-;; 同名ファイルを賢く開く
-;; http://shibayu36.hatenablog.com/entry/2012/12/29/001418
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+;; 現在の関数名をモードラインに表示
+(which-function-mode 1)
 
 ;; 現在行ハイライト
 ;; http://shibayu36.hatenablog.com/entry/2012/12/29/001418
@@ -141,7 +143,6 @@
   (delete-word (- arg)))
 
 (global-set-key (kbd "M-d") 'delete-word)
-;(global-set-key (kbd "M-h") 'backward-delete-word) ; => 挙動が微妙
 
 (global-set-key (kbd "RET") 'newline-and-indent)
 
@@ -154,6 +155,13 @@
       (beginning-of-line)))
 
 (global-set-key "\C-a" 'my-move-beginning-of-line)
+
+;; package 
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(package-initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacsの設定（外部ソース利用）
@@ -186,7 +194,7 @@
 
 (global-auto-complete-mode t)
 
-(setq ac-auto-start 4)
+(setq ac-auto-start 3)
 (setq ac-use-menu-map t)
 ;; デフォルトで設定済み
 (define-key ac-menu-map "\C-n" 'ac-next)
@@ -224,8 +232,19 @@
 (add-hook 'window-setup-hook 'maximize-frame t)
 ;(add-hook 'before-make-frame-hook 'maximize-frame t)
 
-;; powerline
-(require 'powerline)
+;; ;; powerline
+;; (require 'powerline)
+
+;; uniquify
+;; 同名ファイルを賢く開く
+;; http://shibayu36.hatenablog.com/entry/2012/12/29/001418
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;; imenu
+(require 'imenu-tree)
+(global-set-key (kbd "C-x f") 'imenu-tree)
+(setq imenu-tree-auto-update t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; anything
@@ -300,7 +319,7 @@
 (volatile)))
 
 ; anything関係
-;(require 'anything)
+(require 'anything)
 ;(defvar org-directory "")
 (require 'anything-startup)
 
@@ -318,7 +337,7 @@
 (define-key anything-map (kbd "C-n") 'anything-next-line)
 (define-key anything-map (kbd "C-v") 'anything-next-source)
 (define-key anything-map (kbd "M-v") 'anything-previous-source)
-(global-set-key (kbd "C-;") 'anything)
+;(global-set-key (kbd "C-;") 'anything)
 (global-set-key (kbd "C-:") 'anything-filelist+):
 
 ;; anything filelist
@@ -355,15 +374,15 @@
           '(lambda ()
              (local-set-key (kbd "O") 'anything-c-moccur-dired-do-moccur-by-moccur)))
 
-;; ctags + anything
-(when (require 'anything nil t)
-  (require 'anything-exuberant-ctags)
-  )
-(define-key global-map (kbd "C-@") 'anything-exuberant-ctags-select-from-here)
+;; ;; ctags + anything
+;; (when (require 'anything nil t)
+;;   (require 'anything-exuberant-ctags)
+;;   )
+;; (define-key global-map (kbd "C-@") 'anything-exuberant-ctags-select-from-here)
 
-(require 'anything-yaetags)
-(add-to-list 'anything-sources 'anything-c-source-yaetags-select)
-(define-key global-map (kbd "M-@") 'anything-yaetags-find-tag)
+;; (require 'anything-yaetags)
+;; (add-to-list 'anything-sources 'anything-c-source-yaetags-select)
+;; (define-key global-map (kbd "M-@") 'anything-yaetags-find-tag)
 
 
 ;; junk file
@@ -400,6 +419,10 @@
 (add-hook 'org-shiftleft-final-hook 'windmove-left)
 (add-hook 'org-shiftdown-final-hook 'windmove-down)
 (add-hook 'org-shiftright-final-hook 'windmove-right)
+(define-key global-map (kbd "M-k") 'windmove-up)
+(define-key global-map (kbd "M-j") 'windmove-down)
+(define-key global-map (kbd "M-l") 'windmove-right)
+(define-key global-map (kbd "M-h") 'windmove-left)
 
 ;;
 ;; tabbar
@@ -478,10 +501,8 @@ are always included."
 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 
 ;; Chrome ライクなタブ切り替えのキーバインド
-(global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-(global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
-(global-set-key (kbd "<C-right>") 'tabbar-forward-tab)
-(global-set-key (kbd "<C-left>") 'tabbar-backward-tab)
+(global-set-key (kbd "C-t") 'tabbar-forward-tab)
+(global-set-key (kbd "C-q") 'tabbar-backward-tab)
 
 ;; タブ上をマウス中クリックで kill-buffer
 (defun my-tabbar-buffer-help-on-tab (tab)
@@ -515,27 +536,25 @@ mouse-3: delete other windows"
 (setq tabbar-help-on-tab-function 'my-tabbar-buffer-help-on-tab)
 (setq tabbar-select-tab-function 'my-tabbar-buffer-select-tab)
 
-;; e2wm.el
-;; (require 'e2wm)
-;; (global-set-key (kbd "M-+") 'e2wm:start-management)
+;; popwin
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 
-(require 'direx)
-(push '(direx:direx-mode :position left :width 40 :dedicated t)
-      popwin:special-display-config)
-(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
-(setq direx:leaf-icon "  "
-      direx:open-icon "▾ "
-      direx:closed-icon "▸ ")
+;; (require 'direx)
+;; (push '(direx:direx-mode :position left :width 40 :dedicated t)
+;;       popwin:special-display-config)
+;; (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+;; (setq direx:leaf-icon "  "
+;;       direx:open-icon "▾ "
+;;       direx:closed-icon "▸ ")
 
-(setq special-display-function 'popwin:special-display-popup-window)
+;; (setq special-display-function 'popwin:special-display-popup-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; summaryeの設定
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'se/make-summary-buffer "summarye" nil t)
-(global-set-key (kbd "C-x f") 'se/make-summary-buffer)
+;; (autoload 'se/make-summary-buffer "summarye" nil t)
+;; (global-set-key (kbd "C-x f") 'se/make-summary-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; flymakeの設定
@@ -687,31 +706,31 @@ and source-file directory for your debugger." t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; php-mode
-(require 'php-mode)
-(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+;; (require 'php-mode)
+;; (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 
-(add-hook 'php-mode-hook
-          (lambda ()
-            (defun ywb-php-lineup-arglist-intro (langelem)
-              (save-excursion
-                (goto-char (cdr langelem))
-                (vector (+ (current-column) c-basic-offset))))
-            (defun ywb-php-lineup-arglist-close (langelem)
-              (save-excursion
-                (goto-char (cdr langelem))
-                (vector (current-column))))
-            (c-set-style "stroustrup")    ; インデントは4文字分基本スタイル
-            (c-set-offset 'arglist-intro 'ywb-php-lineup-arglist-intro) ; 配列のインデント関係
-            (c-set-offset 'arglist-close 'ywb-php-lineup-arglist-close) ; 配列のインデント関係
-            (c-set-offset 'arglist-cont-nonempty' 4) ; 配列のインデント関係
-;            (c-set-offset 'case-label' 0) ; case はインデントする
-            (make-local-variable 'tab-width)
-            (make-local-variable 'indent-tabs-mode)
-            (setq tab-width 4)
-            (setq indent-tabs-mode nil)))   ; インデントにタブを使う
+;; (add-hook 'php-mode-hook
+;;           (lambda ()
+;;             (defun ywb-php-lineup-arglist-intro (langelem)
+;;               (save-excursion
+;;                 (goto-char (cdr langelem))
+;;                 (vector (+ (current-column) c-basic-offset))))
+;;             (defun ywb-php-lineup-arglist-close (langelem)
+;;               (save-excursion
+;;                 (goto-char (cdr langelem))
+;;                 (vector (current-column))))
+;;             (c-set-style "stroustrup")    ; インデントは4文字分基本スタイル
+;;             (c-set-offset 'arglist-intro 'ywb-php-lineup-arglist-intro) ; 配列のインデント関係
+;;             (c-set-offset 'arglist-close 'ywb-php-lineup-arglist-close) ; 配列のインデント関係
+;;             (c-set-offset 'arglist-cont-nonempty' 4) ; 配列のインデント関係
+;; ;            (c-set-offset 'case-label' 0) ; case はインデントする
+;;             (make-local-variable 'tab-width)
+;;             (make-local-variable 'indent-tabs-mode)
+;;             (setq tab-width 4)
+;;             (setq indent-tabs-mode nil)))   ; インデントにタブを使う
 
 ;; pear
-(setq php-mode-force-pear t)
+;(setq php-mode-force-pear t)
 
 ;; flymake
 ;; http://mugijiru.seesaa.net/article/326967860.html
@@ -748,133 +767,119 @@ and source-file directory for your debugger." t)
 ;; YaTeX
 ;; http://oku.edu.mie-u.ac.jp/~okumura/texwiki/?YaTeX#qe563613
 ;;
-(add-to-list 'load-path "~/.emacs.d/site-lisp/yatex")
-(autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
-(setq auto-mode-alist
-      (append '(("\\.tex$" . yatex-mode)
-                ("\\.ltx$" . yatex-mode)
-                ("\\.cls$" . yatex-mode)
-                ("\\.sty$" . yatex-mode)
-                ("\\.clo$" . yatex-mode)
-                ("\\.bbl$" . yatex-mode)) auto-mode-alist))
-(setq YaTeX-inhibit-prefix-letter t)
-(setq YaTeX-kanji-code nil)
-(setq YaTeX-use-LaTeX2e t)
-(setq YaTeX-use-AMS-LaTeX t)
-(setq YaTeX-dvipdf-command "/usr/texbin/dvipdfmx")
-(setq YaTeX-dvi2-command-ext-alist
-      '(("[agx]dvi\\|PictPrinter\\|Mxdvi" . ".dvi")
-        ("gv" . ".ps")
-        ("Preview\\|TeXShop\\|TeXworks\\|Skim\\|mupdf\\|xpdf\\|Adobe" . ".pdf")))
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp/yatex")
+;; (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
+;; (setq auto-mode-alist
+;;       (append '(("\\.tex$" . yatex-mode)
+;;                 ("\\.ltx$" . yatex-mode)
+;;                 ("\\.cls$" . yatex-mode)
+;;                 ("\\.sty$" . yatex-mode)
+;;                 ("\\.clo$" . yatex-mode)
+;;                 ("\\.bbl$" . yatex-mode)) auto-mode-alist))
+;; (setq YaTeX-inhibit-prefix-letter t)
+;; (setq YaTeX-kanji-code nil)
+;; (setq YaTeX-use-LaTeX2e t)
+;; (setq YaTeX-use-AMS-LaTeX t)
+;; (setq YaTeX-dvipdf-command "/usr/texbin/dvipdfmx")
+;; (setq YaTeX-dvi2-command-ext-alist
+;;       '(("[agx]dvi\\|PictPrinter\\|Mxdvi" . ".dvi")
+;;         ("gv" . ".ps")
+;;         ("Preview\\|TeXShop\\|TeXworks\\|Skim\\|mupdf\\|xpdf\\|Adobe" . ".pdf")))
 
-;; tex-commandの設定は以下のサイトを参照した
-;; http://henry.animeo.jp/wp/?p=1553
-(setq tex-command "~/Library/TeXShop/bin/platex2pdf-utf8")
+;; ;; tex-commandの設定は以下のサイトを参照した
+;; ;; http://henry.animeo.jp/wp/?p=1553
+;; (setq tex-command "~/Library/TeXShop/bin/platex2pdf-utf8")
 
-(setq bibtex-command (cond ((string-match "uplatex" tex-command) "/usr/texbin/upbibtex")
-                           ((string-match "platex" tex-command) "/usr/texbin/pbibtex")
-                           ((string-match "lualatex\\|xelatex" tex-command) "/usr/texbin/bibtexu")
-                           (t "/usr/texbin/bibtex")))
-(setq makeindex-command (cond ((string-match "uplatex" tex-command) "/usr/texbin/mendex")
-                              ((string-match "platex" tex-command) "/usr/texbin/mendex")
-                              ((string-match "lualatex\\|xelatex" tex-command) "/usr/texbin/texindy")
-                              (t "/usr/texbin/makeindex")))
-(setq dvi2-command (cond ((string-match "pdf\\|lua\\|xe" tex-command) "/usr/bin/open -a Preview")
-                         (t "/usr/bin/open -a PictPrinter")))
-(setq dviprint-command-format (cond ((string-match "pdf\\|lua\\|xe" tex-command) "/usr/bin/open -a \"Adobe Reader\" %s")
-                                    (t "/usr/bin/open -a \"Adobe Reader\" `echo %s | sed -e \"s/\\.[^.]*$/\\.pdf/\"`")))
+;; (setq bibtex-command (cond ((string-match "uplatex" tex-command) "/usr/texbin/upbibtex")
+;;                            ((string-match "platex" tex-command) "/usr/texbin/pbibtex")
+;;                            ((string-match "lualatex\\|xelatex" tex-command) "/usr/texbin/bibtexu")
+;;                            (t "/usr/texbin/bibtex")))
+;; (setq makeindex-command (cond ((string-match "uplatex" tex-command) "/usr/texbin/mendex")
+;;                               ((string-match "platex" tex-command) "/usr/texbin/mendex")
+;;                               ((string-match "lualatex\\|xelatex" tex-command) "/usr/texbin/texindy")
+;;                               (t "/usr/texbin/makeindex")))
+;; (setq dvi2-command (cond ((string-match "pdf\\|lua\\|xe" tex-command) "/usr/bin/open -a Preview")
+;;                          (t "/usr/bin/open -a PictPrinter")))
+;; (setq dviprint-command-format (cond ((string-match "pdf\\|lua\\|xe" tex-command) "/usr/bin/open -a \"Adobe Reader\" %s")
+;;                                     (t "/usr/bin/open -a \"Adobe Reader\" `echo %s | sed -e \"s/\\.[^.]*$/\\.pdf/\"`")))
 
-(defun skim-forward-search ()
-  (interactive)
-  (let* ((ctf (buffer-name))
-         (mtf)
-         (pf)
-         (ln (format "%d" (line-number-at-pos)))
-         (cmd "/Applications/Skim.app/Contents/SharedSupport/displayline")
-         (args))
-    (if (YaTeX-main-file-p)
-        (setq mtf (buffer-name))
-      (progn
-        (if (equal YaTeX-parent-file nil)
-            (save-excursion
-              (YaTeX-visit-main t)))
-        (setq mtf YaTeX-parent-file)))
-    (setq pf (concat (car (split-string mtf "\\.")) ".pdf"))
-    (setq args (concat ln " " pf " " ctf))
-    (message (concat cmd " " args))
-    (process-kill-without-query
-     (start-process-shell-command "displayline" nil cmd args))))
+;; (defun skim-forward-search ()
+;;   (interactive)
+;;   (let* ((ctf (buffer-name))
+;;          (mtf)
+;;          (pf)
+;;          (ln (format "%d" (line-number-at-pos)))
+;;          (cmd "/Applications/Skim.app/Contents/SharedSupport/displayline")
+;;          (args))
+;;     (if (YaTeX-main-file-p)
+;;         (setq mtf (buffer-name))
+;;       (progn
+;;         (if (equal YaTeX-parent-file nil)
+;;             (save-excursion
+;;               (YaTeX-visit-main t)))
+;;         (setq mtf YaTeX-parent-file)))
+;;     (setq pf (concat (car (split-string mtf "\\.")) ".pdf"))
+;;     (setq args (concat ln " " pf " " ctf))
+;;     (message (concat cmd " " args))
+;;     (process-kill-without-query
+;;      (start-process-shell-command "displayline" nil cmd args))))
 
-(add-hook 'yatex-mode-hook
-          '(lambda ()
-             (define-key YaTeX-mode-map (kbd "C-c s") 'skim-forward-search)))
+;; (add-hook 'yatex-mode-hook
+;;           '(lambda ()
+;;              (define-key YaTeX-mode-map (kbd "C-c s") 'skim-forward-search)))
 
-(add-hook 'yatex-mode-hook
-          '(lambda ()
-             (auto-fill-mode -1)))
+;; (add-hook 'yatex-mode-hook
+;;           '(lambda ()
+;;              (auto-fill-mode -1)))
 
-;;
-;; RefTeX with YaTeX
-;;
-;(add-hook 'yatex-mode-hook 'turn-on-reftex)
-(add-hook 'yatex-mode-hook
-          '(lambda ()
-             (reftex-mode 1)
-             (define-key reftex-mode-map (concat YaTeX-prefix ">") 'YaTeX-comment-region)
-             (define-key reftex-mode-map (concat YaTeX-prefix "<") 'YaTeX-uncomment-region)))
+;; ;;
+;; ;; RefTeX with YaTeX
+;; ;;
+;; ;(add-hook 'yatex-mode-hook 'turn-on-reftex)
+;; (add-hook 'yatex-mode-hook
+;;           '(lambda ()
+;;              (reftex-mode 1)
+;;              (define-key reftex-mode-map (concat YaTeX-prefix ">") 'YaTeX-comment-region)
+;;              (define-key reftex-mode-map (concat YaTeX-prefix "<") 'YaTeX-uncomment-region)))
 
-;; load-pathにyasnippetのパスを通す
-(require 'yasnippet)
+;; ;; load-pathにyasnippetのパスを通す
+;; (require 'yasnippet)
 
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets" ;; 作成するスニペットはここに入る
-        "~/.emacs.d/public_repos/yasnippet/snippets" ;; 最初から入っていたスニペット(省略可能)
-        ))
-(yas-global-mode 1)
+;; (setq yas-snippet-dirs
+;;       '("~/.emacs.d/snippets" ;; 作成するスニペットはここに入る
+;;         "~/.emacs.d/public_repos/yasnippet/snippets" ;; 最初から入っていたスニペット(省略可能)
+;;         ))
+;; (yas-global-mode 1)
 
-;; 単語展開キーバインド (ver8.0から明記しないと機能しない)
-;; (setqだとtermなどで干渉問題ありでした)
-;; もちろんTAB以外でもOK 例えば "C-;"とか
-;(custom-set-variables '(yas-trigger-key "TAB"))
+;; ;; 単語展開キーバインド (ver8.0から明記しないと機能しない)
+;; ;; (setqだとtermなどで干渉問題ありでした)
+;; ;; もちろんTAB以外でもOK 例えば "C-;"とか
+;; ;(custom-set-variables '(yas-trigger-key "TAB"))
 
-;; 既存スニペットを挿入する
-(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
-;; 新規スニペットを作成するバッファを用意する
-(define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
-;; 既存スニペットを閲覧・編集する
-(define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
+;; ;; 既存スニペットを挿入する
+;; (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
+;; ;; 新規スニペットを作成するバッファを用意する
+;; (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
+;; ;; 既存スニペットを閲覧・編集する
+;; (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
 
-;; anything interface
-(eval-after-load "anything-config"
-  '(progn
-     (defun my-yas/prompt (prompt choices &optional display-fn)
-       (let* ((names (loop for choice in choices
-                           collect (or (and display-fn (funcall display-fn choice))
-                                       choice)))
-              (selected (anything-other-buffer
-                         `(((name . ,(format "%s" prompt))
-                            (candidates . names)
-                            (action . (("Insert snippet" . (lambda (arg) arg))))))
-                         "*anything yas/prompt*")))
-         (if selected
-             (let ((n (position selected names :test 'equal)))
-               (nth n choices))
-           (signal 'quit "user quit!"))))
-     (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))))
-
-;; (custom-set-variables
-;;   ;; custom-set-variables was added by Custom.
-;;   ;; If you edit it by hand, you could mess it up, so be careful.
-;;   ;; Your init file should contain only one such instance.
-;;   ;; If there is more than one, they won't work right.
-;;  '(safe-local-variable-values (quote ((whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark) (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8") (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx") (ruby-compilation-executable . "jruby")))))
-;; (custom-set-faces
-;;   ;; custom-set-faces was added by Custom.
-;;   ;; If you edit it by hand, you could mess it up, so be careful.
-;;   ;; Your init file should contain only one such instance.
-;;   ;; If there is more than one, they won't work right.
-
-;;  )
+;; ;; anything interface
+;; (eval-after-load "anything-config"
+;;   '(progn
+;;      (defun my-yas/prompt (prompt choices &optional display-fn)
+;;        (let* ((names (loop for choice in choices
+;;                            collect (or (and display-fn (funcall display-fn choice))
+;;                                        choice)))
+;;               (selected (anything-other-buffer
+;;                          `(((name . ,(format "%s" prompt))
+;;                             (candidates . names)
+;;                             (action . (("Insert snippet" . (lambda (arg) arg))))))
+;;                          "*anything yas/prompt*")))
+;;          (if selected
+;;              (let ((n (position selected names :test 'equal)))
+;;                (nth n choices))
+;;            (signal 'quit "user quit!"))))
+;;      (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))))
 
 ;;
 ;; Shell 設定
@@ -949,7 +954,7 @@ and source-file directory for your debugger." t)
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-;(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
@@ -968,3 +973,12 @@ and source-file directory for your debugger." t)
   (setq web-mode-code-indent-offset     4))
 (add-hook 'web-mode-hook 'web-mode-hook)
 
+;; multiple-cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+
+;; expand-region
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)

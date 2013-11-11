@@ -18,9 +18,7 @@ alias ks='ls'
 # mino monta
 alias mino='node'
 alias sr='source'
-# file grep
-alias fg='find . G'
-
+alias srz='source ~/.zshrc'
 ###
 function chpwd() { ls }
 
@@ -120,21 +118,24 @@ zle -N expand-or-complete-or-list-files
 # bind to tab
 bindkey '^I' expand-or-complete-or-list-files
 
+# nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
 # nvm
 # nvm と指定されたバージョンの Node.js がインストール済みの場合だけ
 # 設定を有効にする
-if [[ -f ~/.nvm/nvm.sh ]]; then
-    source ~/.nvm/nvm.sh  
-
-    if which nvm >/dev/null 2>&1 ;then
-        _nodejs_use_version="v0.8.23"
-        if nvm ls | grep -F -e "${_nodejs_use_version}" >/dev/null 2>&1 ;then
-            nvm use "${_nodejs_use_version}" >/dev/null
-            export NODE_PATH=${NVM_PATH}_modules${NODE_PATH:+:}${NODE_PATH}
-        fi
-        unset _nodejs_use_version
-    fi
-fi
+#if [[ -f ~/.nvm/nvm.sh ]]; then
+#    source ~/.nvm/nvm.sh  
+#
+#    if which nvm >/dev/null 2>&1 ;then
+#        _nodejs_use_version="v0.8.23"
+#        if nvm ls | grep -F -e "${_nodejs_use_version}" >/dev/null 2>&1 ;then
+#            nvm use "${_nodejs_use_version}" >/dev/null
+#            export NODE_PATH=${NVM_PATH}_modules${NODE_PATH:+:}${NODE_PATH}
+#        fi
+#        unset _nodejs_use_version
+#    fi
+#fi
 
 # gitなどバージョン管理
 autoload -Uz vcs_info
@@ -146,3 +147,7 @@ precmd () {
                 [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
+
+
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/shims:$PATH"
