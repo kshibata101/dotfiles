@@ -74,6 +74,10 @@ inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-d> <Del>
 inoremap <C-h> <BS>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+nnoremap <C-g> <Esc>
+vnoremap <C-g> <Esc>
 
 " set status bar configuration
 set laststatus=2

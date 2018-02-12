@@ -20,7 +20,7 @@ map qa <esc>:qmarks<cr>
 set focuscontent
 
 " hintchars
-set hintchars=asdfghjkl
+set hintchars=asdfjklecmirvunwxo
 
 set maxitems=15
 
@@ -34,3 +34,9 @@ set newtab=all
 
 " font size
 hi Hint z-index:5000; font-family:Menlo; font-size:14px; color:white; background-color:red; border-color:ButtonShadow; border-width:0px; border-style:solid; padding:0px 2px 0px 2px; position:absolute;
+
+noremap x d
+noremap d <M-w>
+
+" hide navigation bar
+set gui=nonavigation
