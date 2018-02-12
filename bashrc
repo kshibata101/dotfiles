@@ -1,34 +1,27 @@
-export JAVA_HOME=/Library/Java/Home
-#export DYLD_LIBRARY_PATH=/usr/local/mysql/lib
 export PS1="[\w]: "
-export M2_HOME=/usr/local/apache-maven-3.0.4
-export M2=$M2_HOME/bin
 export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
-export PHPBREW_SET_PROMPT=1
 export PATH=/usr/local/bin:$PATH
-export PATH=$PATH:$JAVA_HOME/bin
-export PATH=$PATH:/usr/local/mysql/bin
-export PATH=$PATH:/Users/kazukishibata/Documents/lib/scala-2.9.1.final/bin
-export PATH=$PATH:/Applications/XAMPP/xamppfiles
-export PATH=$PATH:/usr/local/play-2.0.4
-export PATH=$PATH:/usr/local/WordNet-3.0/bin
 export PATH=$PATH:~/bin
-export PATH=$PATH:$M2
-export PATH=$PATH:~/pear/bin
-export PATH=$PATH:/usr/local/share/npm/lib/node_modules
-export PATH=$PATH:~/Documents/lib/adt-bundle-mac-x86_64-20130219/sdk/platform-tools:~/Documents/lib/adt-bundle-mac-x86_64-20130219/sdk/tools
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
+alias l='ls'
+alias la='ls -a'
+alias ll='ls -l'
+alias lla='ls -la'
 alias fn='find . -name'
-alias dd="cdls"
 alias rm='rm -i'
-alias .='ls .'
-alias ..='dd ../'
-alias ...='dd ../../'
-alias ....='dd ../../../'
+alias ..='cdls ../'
+alias ...='cdls ../../'
+alias ....='cdls ../../../'
+alias tmux='tmux -u'
 alias tm='tmux'
 alias ta='tmux a'
 alias tl='tmux ls'
+alias sc="screen"
+alias sr="screen -r"
 alias pg='ps aux | grep'
+alias g11='g++ --std=c++11'
+alias sob='source ~/.bashrc'
 
 function cdls() {
     \cd $*;
@@ -37,32 +30,27 @@ function cdls() {
 
 case "${OSTYPE}" in
 darwin*)
-  alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
-  alias xampp="xampp"
   export LSCOLORS=gxfxcxdxbxegedabagacad
   alias ls='ls -FG'
-  alias l='ls'
-  alias la='ls -a'
-  alias ll='ls -l'
-  alias lla='ls -la'
   ;;
 linux*)
   alias ls='ls --color'
-  alias ll='ls -l --color'
-  alias la='ls -la --color'
-  alias lla='ls -lla --color'
   ;;
 esac
 
-[[ -s /Users/kshibata101/.nvm/nvm.sh ]] && source /Users/kshibata101/.nvm/nvm.sh # This loads NVM
-nvm use v0.10.4
+set -o ignoreeof
 
-# Load RVM into a shell session *as a function
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+if [ -d ${HOME}/.env/enabled ] ; then
+    for file in `\find ${HOME}/.env/enabled -maxdepth 1 -type f -o -type l`; do
+        source ${file}
+    done
+fi
+if [ -d ${HOME}/.alias/enabled ] ; then
+    for file in `\find ${HOME}/.alias/enabled -maxdepth 1 -type f -o -type l`; do
+        source ${file}
+    done
+fi
 
-### Added by the Heroku Toolbelt
-export PATH="$PATH:/usr/local/heroku/bin"
-
-[[ -s "$HOME/.phpbrew/bashrc" ]] && source "$HOME/.phpbrew/bashrc"
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+if [ -f ~/.bashrc.local ]; then
+    source ~/.bashrc.local
+fi

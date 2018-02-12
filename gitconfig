@@ -4,34 +4,49 @@
 [github]
 	user = kshibata101
 	token = 091366629ed0c239990f22496d5eeb41
-[colar]
-	ui = auto
 [color]
 	ui = auto
 [core]
 	excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
 	pager = lv -c
 [alias]
-        st = status -s -b -uall
-        sh = stash
+        st = status -s -b
+        sa = status -s -b -u
+        ss = stash
         sp = stash pop
         sl = stash list
         ch = checkout
         cb = checkout -b
-        br = branch
+        chh = checkout HEAD
+        br = branch -v
         bd = branch -D
-        rb = branch -r
+        rb = branch -v -r
         cm = commit -m
         ca = commit -a
-        lo = log --oneline
-        lg = log --stat --oneline
-        lp = log -p --oneline
+        lg = log --pretty='format:%C(yellow)%h%Creset %C(blue)%ad%Creset%x09%C(green)%an%Creset%x09%C(red)%d %Creset%s' --date=iso
+        l  = log --oneline
+        ls = log --oneline --stat
+        lp = log -p --stat
         mg = merge --no-ff
         rs = reset
-        ad = add .
+        ad = add --all .
         au = add -u
         ap = add -p
         rv = revert -n
-        rf = reflog
+        re = remote -v
+        pl = pull
+        pr = pull --rebase
         df = diff
+        dn = diff --name-only
         dc = diff --cached
+        cl = clean -f -d
+        rf = reflog
+        fe = fetch
+        ft = fetch --tags
+        fp = fetch --prune
+        sb = show-branch
+        sm = submodule
+[tig "bind"]
+        generic = g move-first-line
+        generic = G move-last-line
