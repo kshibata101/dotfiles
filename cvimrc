@@ -1,0 +1,15 @@
+map <C-f> scrollFullPageDown
+map <C-b> scrollFullPageUp
+map u lastClosedTab
+map d closeTab
+map h goBack
+map l goForward
+
+" Disable all mappings in Text boxes
+iunmapAll
+
+" Yank current url
+map y yankDocumentUrl
+
+" Open Tab with searching selected words
+map <C-s> :execute vyP<CR>
