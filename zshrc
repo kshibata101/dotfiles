@@ -1,5 +1,6 @@
+bindkey -e
 export LANG=ja_JP.UTF-8
-export PATH=/usr/local/bin:$PATH
+#export PATH=/usr/local/bin:$PATH
 
 # alias
 # 使い方
@@ -118,25 +119,6 @@ zle -N expand-or-complete-or-list-files
 # bind to tab
 bindkey '^I' expand-or-complete-or-list-files
 
-# nodebrew
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-# nvm
-# nvm と指定されたバージョンの Node.js がインストール済みの場合だけ
-# 設定を有効にする
-#if [[ -f ~/.nvm/nvm.sh ]]; then
-#    source ~/.nvm/nvm.sh  
-#
-#    if which nvm >/dev/null 2>&1 ;then
-#        _nodejs_use_version="v0.8.23"
-#        if nvm ls | grep -F -e "${_nodejs_use_version}" >/dev/null 2>&1 ;then
-#            nvm use "${_nodejs_use_version}" >/dev/null
-#            export NODE_PATH=${NVM_PATH}_modules${NODE_PATH:+:}${NODE_PATH}
-#        fi
-#        unset _nodejs_use_version
-#    fi
-#fi
-
 # gitなどバージョン管理
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '[%b]'
@@ -148,6 +130,17 @@ precmd () {
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
 
+if [ -d ${HOME}/.env/enabled ] ; then
+    for file in `\find ${HOME}/.env/enabled -maxdepth 1 -type f -o -type l`; do
+        source ${file}
+    done
+fi
+if [ -d ${HOME}/.alias/enabled ] ; then
+    for file in `\find ${HOME}/.alias/enabled -maxdepth 1 -type f -o -type l`; do
+        source ${file}
+    done
+fi
 
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/shims:$PATH"
+if [ -f ~/.zshrc.local ]; then
+    source ~/.zshrc.local
+fi

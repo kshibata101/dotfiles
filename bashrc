@@ -2,7 +2,6 @@ export PS1="[\w]: "
 export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
 export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:~/bin
-export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 alias l='ls'
 alias la='ls -a'
