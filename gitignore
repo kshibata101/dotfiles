@@ -4,6 +4,7 @@
 *#*
 *.info
 .#*
+*.swp
 doc/ess.*
 doc/info/ess.info
 doc/readme.*

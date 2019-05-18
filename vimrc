@@ -27,7 +27,7 @@ endif
 " set encoding
 set encoding=utf-8
 set fileformat=unix
-set fileencodings=ucs-bom,iso-2022-jp,utf-8,euc-jp,sjis,default
+set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,default
 set fileformats=unix,dos,mac
 
 " set BS key

@@ -1,6 +1,6 @@
 bindkey -e
 export LANG=ja_JP.UTF-8
-#export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 
 # alias
 # 使い方
@@ -16,12 +16,22 @@ alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
 alias ks='ls'
+alias .="ls"
+alias ..="cd ../"
+alias ...="cd ../../"
+alias ....="cd ../../../"
 # mino monta
 alias mino='node'
-alias sr='source'
-alias srz='source ~/.zshrc'
+alias so='source'
+alias soz='source ~/.zshrc'
+alias g11='g++ --std=c++11'
+alias g11d='g++ --std=c++11 -g -O0'
+alias be='bundle exec '
+
 ###
 function chpwd() { ls }
+
+set -o ignoreeof
 
 ##プロンプト
 PROMPT="%F{yellow}[%~]%f
@@ -119,6 +129,12 @@ zle -N expand-or-complete-or-list-files
 # bind to tab
 bindkey '^I' expand-or-complete-or-list-files
 
+<<<<<<< Updated upstream
+=======
+# nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+>>>>>>> Stashed changes
 # gitなどバージョン管理
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '[%b]'
@@ -129,6 +145,24 @@ precmd () {
                 [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+export PATH="${PYENV_ROOT}/bin:$PATH"
+eval "$(pyenv init -)"
+
+# goenv
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+
+## create emacs env file
+#perl -wle \
+#    'do { print qq/(setenv "$_" "$ENV{$_}")/ if exists $ENV{$_} } for @ARGV' \
+#        PATH > ~/.emacs.d/shellenv.el
 
 if [ -d ${HOME}/.env/enabled ] ; then
     for file in `\find ${HOME}/.env/enabled -maxdepth 1 -type f -o -type l`; do

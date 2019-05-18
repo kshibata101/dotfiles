@@ -21,6 +21,7 @@ alias sr="screen -r"
 alias pg='ps aux | grep'
 alias g11='g++ --std=c++11'
 alias sob='source ~/.bashrc'
+alias be="bundle exec "
 
 function cdls() {
     \cd $*;
