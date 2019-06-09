@@ -129,12 +129,9 @@ zle -N expand-or-complete-or-list-files
 # bind to tab
 bindkey '^I' expand-or-complete-or-list-files
 
-<<<<<<< Updated upstream
-=======
 # nodebrew
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
->>>>>>> Stashed changes
 # gitなどバージョン管理
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '[%b]'
