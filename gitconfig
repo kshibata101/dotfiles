@@ -41,6 +41,7 @@
         df = diff
         dn = diff --name-only
         dc = diff --cached
+        dt = difftool --tool=vimdiff -y
         cl = clean -f -d
         rf = reflog
         fe = fetch

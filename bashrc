@@ -1,7 +1,18 @@
 export PS1="[\w]: "
-export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
+#export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
 export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:~/bin
+
+addToPromptCommand() {
+  if [[ ":$PROMPT_COMMAND:" != *":$1:"* ]]; then
+    PROMPT_COMMAND="${PROMPT_COMMAND:+"$PROMPT_COMMAND:"}$1"
+  fi
+}
+
+# Set iTerm title to show current directory
+if [ $ITERM_SESSION_ID ]; then
+  addToPromptCommand 'echo -ne "\033];${PWD##*/}\007"'
+fi
 
 alias l='ls'
 alias la='ls -a'
