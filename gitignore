@@ -10,7 +10,6 @@ doc/info/ess.info
 doc/readme.*
 doc/refcard/refcard.*
 *history
-*NEWS
 *REVISION
 *BACKUP*
 *REMOTE*
@@ -41,7 +40,31 @@ GTAGS
 *.iml
 !*.yml
 
+# ruby
+.pryrc
 .rbenv-gemsets
 
 # rails
 master*.key
+
+# python
+.venv/
+
+# go
+.go-version
+.golangci-lint.yaml
+
+.envrc
+
+# node
+.node-version
+
+# vscode
+*.code-workspace
+.vscode
+
+# credential
+ideagram-4d-dev.json
+
+master.key.prod
+credentials.yml.enc.prod

@@ -8,20 +8,23 @@
 	ui = auto
 [core]
 	excludesfile = ~/.gitignore
-    attributesfile = ~/.gitattributes
-	pager = lv -c
+	attributesfile = ~/.gitattributes
+	pager = less -x1,5
 [alias]
         st = status -s -b
         sa = status -s -b -u
         ss = stash
         sp = stash pop
         sl = stash list
-        ch = checkout
-        cb = checkout -b
-        chh = checkout HEAD
+        sd = stash drop
+        sw = switch
+        sc = switch -c
+        swd = "!f(){ git switch $1 && git branch -D @{-1} && git pull origin $1;};f"
+        #ch = checkout
+        #cb = checkout -b
+        #chh = checkout HEAD
         br = branch -v
         bd = branch -D
-        rb = branch -v -r
         cm = commit -m
         ca = commit -a
         lg = log --pretty='format:%C(yellow)%h%Creset %C(blue)%ad%Creset%x09%C(green)%an%Creset%x09%C(red)%d %Creset%s' --date=iso
@@ -29,15 +32,22 @@
         ls = log --oneline --stat
         lp = log -p --stat
         mg = merge --no-ff
+        mc = merge --continue
+        ma = merge --abort
         rs = reset
+        re = restore
+        rb = rebase
+        rba = rebase --abort
+        rbc = rebase --continue
+        rbs = rebase --skip
         ad = add --all .
         au = add -u
         ap = add -p
         rv = revert -n
-        re = remote -v
-        pl = pull
+        rt = remote -v
         pr = pull --rebase
-        ps = push --set-upstream
+        pl = pull origin
+        ps = push -u origin
         df = diff
         dn = diff --name-only
         dc = diff --cached
@@ -66,3 +76,5 @@
 	patterns = private_key_id
 [init]
 	templatedir = ~/.git-templates/secrets
+[push]
+	default = current
