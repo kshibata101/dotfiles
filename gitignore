@@ -49,11 +49,14 @@ master*.key
 
 # python
 .venv/
+.python-version
+pyrightconfig.json
 
 # go
 .go-version
 .golangci-lint.yaml
 
+.env
 .envrc
 
 # node

@@ -76,5 +76,8 @@
 	patterns = private_key_id
 [init]
 	templatedir = ~/.git-templates/secrets
+	defaultBranch = main
 [push]
 	default = current
+[pull]
+	rebase = false
