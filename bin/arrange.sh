@@ -15,8 +15,7 @@ ln -s ${parent_path}/gitignore ~/.gitignore
 ln -s ${parent_path}/tmux.conf ~/.tmux.conf
 ln -s ${parent_path}/vimrc ~/.vimrc
 ln -s ${parent_path}/zshrc ~/.zshrc
-ln -s ${parent_path}/karabiner.json ~/.config/karabiner/karabiner.json
-ln -s ${parent_path}/karabiner/assets/complex_modifications/my.json ~/.config/karabiner/assets/complex_modifications/
+ln -s ${parent_path}/pryrc ~/.pryrc
 
 if [ "ALL" = "TRUE" ]; then
     ln -s ${parent_path}/emacs.d/ ~/.emacs.d
