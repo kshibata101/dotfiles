@@ -14,6 +14,7 @@
         st = status -s -b
         sa = status -s -b -u
         ss = stash
+        sk = stash -k
         sp = stash pop
         sl = stash list
         sd = stash drop

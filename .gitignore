@@ -42,18 +42,17 @@ GTAGS
 
 # ruby
 .pryrc
+.irbrc
 .rbenv-gemsets
 
 # rails
 master*.key
 
 # python
-.venv/
-.python-version
+.venv*/
 pyrightconfig.json
 
 # go
-.go-version
 .golangci-lint.yaml
 
 .env
@@ -71,3 +70,6 @@ ideagram-4d-dev.json
 
 master.key.prod
 credentials.yml.enc.prod
+
+# vf
+gcp_*.key
