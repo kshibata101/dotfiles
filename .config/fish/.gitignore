@@ -1,5 +1,7 @@
 *.backup
 fish_variables
-completions/
-functions/
+completions/*
+!completions/.gitkeep
+functions/*
+!functions/.gitkeep
 
