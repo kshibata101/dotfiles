@@ -1,0 +1,5 @@
+*.backup
+fish_variables
+completions/
+functions/
+
