@@ -16,6 +16,7 @@ ln -s ${parent_path}/.tmux.conf ~/.tmux.conf
 ln -s ${parent_path}/.vimrc ~/.vimrc
 ln -s ${parent_path}/.zshrc ~/.zshrc
 ln -s ${parent_path}/.pryrc ~/.pryrc
+ln -s ${parent_path}/.config/fish ~/.config/fish
 
 if [ "ALL" = "TRUE" ]; then
     ln -s ${parent_path}/.emacs.d/ ~/.emacs.d
