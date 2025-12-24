@@ -1197,6 +1197,31 @@
             ]
         },
         {
+            "description": "Exchange capslock -> left control",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "caps_lock",
+                        "modifiers": {
+                            "optional": [
+                                "caps_lock",
+                                "shift",
+                                "option",
+                                "command",
+                                "fn"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_control"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
             "description": "Exchange capslock -> left control -> left option -> left command",
             "manipulators": [
                 {
